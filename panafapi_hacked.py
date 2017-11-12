@@ -34,8 +34,7 @@ import pan.afapi
 debug = 0
 
 
-def panafapi_hacked(hostname, api_key, action, domain, af_tag):
-
+def panafapi_hacked(hostname, api_key, action, query_arg):
 
     options = {
         'sessions': False,
@@ -67,13 +66,12 @@ def panafapi_hacked(hostname, api_key, action, domain, af_tag):
         }
 
 
-    if action == 'get_tags':
+    if action == 'sample_stats':
 
         options['samples'] = True
-        lastYear = int(time.strftime("%Y")) - 1
-#        query_arg = '{{"query":{{"operator":"all","children":[{{"field":"alias.domain","operator":"contains","value":"{0}"}},{{"field":"sample.tag_class","operator":"is in the list","value":["malware_family"]}},{{"field":"sample.create_date","operator":"is after","value":["{1}-10-26T00:00:00"]}}]}},"scope":"global","size":50,"from":0,"sort":{{"create_date":{{"order":"desc"}}}}}}'.format(domain, lastYear)
-        query_arg = '{{"query":{{"operator":"all","children":[{{"field":"alias.domain","operator":"contains","value":"{0}"}}]}},"scope":"global","size":50,"from":0,"sort":{{"create_date":{{"order":"desc"}}}}}}'.format(domain)
-
+#        query_arg = '{{"query":{{"operator":"all","children":[{{"field":"alias.domain","operator":"contains","value":"{0}"}}]}},"scope":"global","size":50,"from":0,"sort":{{"create_date":{{"order":"desc"}}}}}}'.format(domain)
+ #       query_arg = '{{"query":{{"operator":"all","children":[{{"field":"sample.malware","operator":"contains","value":"{0}"}}]}},"scope":"global","size":50,"from":0,"sort":{{"create_date":{{"order":"desc"}}}}}}'.format(domain)
+ #       query_arg = '{{"query":{{"operator":"all","children":[{{"field":"sample.malware","operator":"is","value":1}},{{"field":"sample.tag_group","operator":"is","value":"Ransomware"}},{{"field":"sample.create_date","operator":"is in the range","value":["2017-11-03T00:00:00","2017-11-03T23:59:59"]}}]}},"scope":"global","size":1,"from":0,"sort":{{"create_date":{{"order":"desc"}}}}}}'
         options['json_requests'].append(process_arg(query_arg))
 
         if options['json_requests']:
@@ -97,7 +95,9 @@ def panafapi_hacked(hostname, api_key, action, domain, af_tag):
 
     if action == 'tag_info':
         options['tag'] = af_tag
-        
+
+    if action == 'session_stats':
+        pass        
 
     try:
         afapi = pan.afapi.PanAFapi(panrc_tag=options['panrc_tag'],
@@ -269,6 +269,17 @@ def exit_for_http_status(r):
         else:
             return
     sys.exit(1)
+
+def print_python(obj, isjson=False):
+    if isjson:
+        try:
+            obj = json.loads(obj)
+        except ValueError as e:
+            print(e, file=sys.stderr)
+            print(obj, file=sys.stderr)
+            sys.exit(1)
+
+    print(pprint.pformat(obj, indent=4))
 
 
 def print_json(obj, isjson=False):
