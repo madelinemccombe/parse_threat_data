@@ -34,12 +34,12 @@ def main():
     verdict = 'all'
 
 # Query type for sample search mapped to the dictionary with same name
-    query_type = 'region'
+    query_type = 'filetype'
 
     query_count = OrderedDict([])
-    weeks = 52
+    days = 60
 #   base init_date for past 1 year: init_date = date.today()-timedelta(days=372)
-    init_date = date.today()-timedelta(days=372)
+    init_date = date.today()-timedelta(days=days)
 
 # Sample tag group query that is base for iteration across time (monthly) and tag Group value
 # {"query":{"operator":"all","children":[{"field":"sample.malware","operator":"is","value":1},{"field":"sample.tag_group","operator":"is","value":"Ransomware"},{"field":"sample.create_date","operator":"is in the range","value":["2017-11-03T00:00:00","2017-11-03T23:59:59"]}]},"scope":"global","size":1,"from":0,"sort":{"create_date":{"order":"desc"}}}
@@ -75,6 +75,7 @@ def main():
                 'jp',
                 'sg',
                 ]
+
 
     filetype = [
                 "7zip Archive",
@@ -112,17 +113,22 @@ def main():
     if query_type == 'group':
         query_field = 'sample.tag_group'
         query_list = tag_group
-        filename = 'tag_group_data_{0}_{1}.csv'.format(verdict,scope)
+        filename = 'tag_group_data_daily_{0}_{1}.csv'.format(verdict,scope)
 
     if query_type == 'upload_source':
         query_field = 'session.upload_src'
         query_list = upload_source
-        filename =  'upload_source_data_{0}_{1}.csv'.format(verdict,scope)
+        filename =  'upload_source_data_daily_{0}_{1}.csv'.format(verdict,scope)
 
     if query_type == 'region':
         query_field = 'session.region'
         query_list = region
-        filename = 'region_data_{0}_{1}.csv'.format(verdict,scope)
+        filename = 'region_data_daily_{0}_{1}.csv'.format(verdict,scope)
+
+    if query_type == 'filetype':
+        query_field = 'sample.filetype'
+        query_list = filetype
+        filename = 'filetype_data_daily_{0}_{1}.csv'.format(verdict,scope)
 
 
     print('\nStarting Autofocus queries for query_type = {0}'.format(query_type))
@@ -138,7 +144,7 @@ def main():
 
 # Add in headers for the dict data
 # Week label and then iterate across list items
-        query_count['headers'] = ['Week']
+        query_count['headers'] = ['Date']
         for item in query_list:
             query_count['headers'].append(item)
 
@@ -147,14 +153,14 @@ def main():
             for row_cells in query_count.values():
                 writer.writerow(row_cells)
 
+# start and end are the same for daily; doing this to keep same query output as weekly model
+    start_date, end_date = init_date+timedelta(days=1), init_date+timedelta(days=1)
 
-    start_date, end_date = init_date, init_date+timedelta(days=6)
+# Iterate over days - count specified as days above
 
-# Iterate over weeks - count specified as weeks above
-
-    for i in range(weeks):
+    for i in range(days):
         query_count = OrderedDict([])
-        print("\nQuery time range between {0} and {1}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
+        print("\nQuery date is {0}".format(start_date.strftime("%Y-%m-%d")))
         query_count[start_date.strftime("%Y-%m-%d")] = [start_date.strftime("%Y-%m-%d")]
 
 # For each week iterate over each list and get counts per item
@@ -176,7 +182,7 @@ def main():
             query_count[start_date.strftime("%Y-%m-%d")].append(af_output_dict['total'])
             time.sleep(5) # time delay to ensure no per-minute quota exhaust
         
-        start_date, end_date = end_date+timedelta(days=1), end_date+timedelta(days=7)
+        start_date, end_date = end_date+timedelta(days=1), end_date+timedelta(days=1)
 
         with open(filename, 'a') as outfile:
             writer = csv.writer(outfile, delimiter=",", lineterminator="\n")
