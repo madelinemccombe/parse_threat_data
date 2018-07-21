@@ -3,11 +3,11 @@ env/
 
 # threat data input files
 
-inputfiles/*
+inputfiles/*.xlsx
 
 # output estack files
 
-estackfiles/*
+estackfiles/*.json
 
 
 # idea folder
