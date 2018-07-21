@@ -1,15 +1,23 @@
-# Safe Network Tools
-Demo Safenetworking configuration creator and Autofocus domain-tag validation queries
+# Threat Data Parse Tools
+Parse threat data sheets into estack loadable output
 
-These apps are used to complement the SafeNetwork application
 
-## Autofocus Domain queries
+## Data loads
 
-Useful to check a list of domain values to determine if tags, especially of class 'malware_family' exists in Autofocus.
+Data categories and indexes for daily counts include:
 
-## Firewall configuration utility
+* counts for all verdicts and malware
+* malware by filetype and upload source
+* malware by application
+* AV/Wildfire signatures
+* AV/Wildfire sigs and related filetypes
+* Top 20 Sig-Sample ratios
 
-Provides a set of templates with input variables. The user can either create config snippets to manually load into the firewall or leverage the firewall API to quickly configuration and commit the Safe Networking required configuration.
+
+## Loading into Elasticsearch
+
+Output json are designed to be bulk loaded into Elasticsearch
+
 
 ## INSTALLATION
 
@@ -23,42 +31,24 @@ $ python3.6 -m venv env
 $ source env/bin/activate
 
 ###### 4. Change into repo directory
-$ cd safeNetwork_tools
+$ cd parse_threat_data
 
 ###### 5. Download required libraries
 $ pip install -r requirements.txt
 
+###### 6. Enter or validate values in the panrc.py file
+$ vi conf.py --> **Or editor of choice**
 
-## Using the Autofocus Query tool
+###### 7. Run the python file specific to data to parse
 
-###### 1. Edit the domain_list.txt file with a set of domains to query
-NOTE: This is a simple input list using linebreaks and not a CSV format
+$ python samplecounts.py
 
-###### 2. Edit the API key value in the domain_tag.py file
-This is the Autofocus API key used for api interactions
-NOTE: Check the daily quota value to ensure enough points to run queries
+$ python filetypecounts.py
 
-###### 3. Run the python application
-$ python ./domain_tag.py
+$ python appcounts.py
 
-###### 4. Monitor and check final results
-The output per domain and end-of-run summary will appear in the output window
-When complete two files are created:
-* the domain_tags.txt file shows json output of all domains and associated malware family tags 
-* the tag_data.txt file with all tag values returned and associated class and group values
+$ python sigcounts.py
+
+###### 8. Output in the estackfiles ready for bulk loading
 
 
-## Using the Firewall configuration utility
-
-###### 1. Edit the variable values in input-var.csv
-Set CONFIG_API:NO to only creates files or CONFIG_API:YES to send configs using the api
-
-###### 2. Run the python configuration file
-$ python ./configxml.py 
-
-###### 3. Enter the api user and password when prompted
-* Make sure there is connectivity to the device
-* Validate that the user account has API write permissions
-
-###### 4. Output files will be stored in xml-templates
-The folder name is based on the csv Customer name and firewall IP values

@@ -1,1 +1,12 @@
-*.csv
+# virtual environment
+env/
+
+# threat data input files
+
+inputfiles/*
+
+# output estack files
+
+estackfiles/*
+
+
