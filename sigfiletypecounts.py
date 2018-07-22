@@ -7,25 +7,25 @@ import datetime
 import xlrd
 import json
 from xlrd import open_workbook
-from conf import filetypes_output, filetypes_sheetname, filetypes_source, filetype_elkindex
+from conf import sigfiletypes_output, sigfiletypes_sheetname, sigfiletypes_source, sigfiletype_elkindex
 from lib.elk_index import elk_index
-from lib.datatags import filetypetags
+from lib.datatags import sigfiletypetags
 
 
-def filetypecounts():
+def sigfiletypecounts():
 
     """
-    filetype daily counters for malware verdict samples
+    Sig and filetype daily counters for daily sig releases
 
     """
 
 # open and read in the all samples data
-    filesamples = open_workbook(filetypes_source)
-    filesheet = filesamples.sheet_by_name(filetypes_sheetname)
+    filesamples = open_workbook(sigfiletypes_source)
+    filesheet = filesamples.sheet_by_name(sigfiletypes_sheetname)
 
     filetype_data_dict = {}
 
-    with open(filetypes_output, 'w') as f:
+    with open(sigfiletypes_output, 'w') as f:
         print('flush to rebuild the filetype count file')
 
     for row in range(2, filesheet.nrows):
@@ -35,12 +35,12 @@ def filetypecounts():
         filetype_data_dict['count'] = int(filesheet.cell(row,2).value)
 
         filetype = filetype_data_dict['filetype']
-        filetype_data_dict['filegroup'] = filetypetags[filetype][0]
-        filetype_data_dict['afname'] = filetypetags[filetype][1]
+        filetype_data_dict['filegroup'] = sigfiletypetags[filetype][0]
+        filetype_data_dict['afname'] = sigfiletypetags[filetype][1]
 
-        index_tag_full = elk_index(filetype_elkindex)
+        index_tag_full = elk_index(sigfiletype_elkindex)
 
-        with open(filetypes_output, 'a') as file:
+        with open(sigfiletypes_output, 'a') as file:
             file.write(json.dumps(index_tag_full, indent=None, sort_keys=False) + "\n")
             file.write(json.dumps(filetype_data_dict, indent=None, sort_keys=False) + "\n")
 
@@ -48,4 +48,4 @@ def filetypecounts():
 
 
 if __name__ == '__main__':
-    filetypecounts()
+    sigfiletypecounts()

@@ -6,7 +6,7 @@ Parse data files with json output for estack bulk load
 import datetime
 import json
 from xlrd import open_workbook
-from conf import samples_output, samples_source, samples_sheetname, malware_source, malware_sheetname
+from conf import samples_output, samples_source, samples_sheetname, malware_source, malware_sheetname, sample_elkindex
 from lib.elk_index import elk_index
 
 
@@ -37,7 +37,7 @@ def dailycounts():
         sample_data_dict['totalcount'] = int(allsheet.cell(row,1).value)
         sample_data_dict['malcount'] = int(malsheet.cell(row, 1).value)
 
-        index_tag_full = elk_index('samplecounts')
+        index_tag_full = elk_index(sample_elkindex)
 
         with open(samples_output, 'a') as file:
             file.write(json.dumps(index_tag_full, indent=None, sort_keys=False) + "\n")
