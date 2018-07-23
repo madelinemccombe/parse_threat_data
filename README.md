@@ -44,7 +44,7 @@ $ cd parse_threat_data
 $ pip install -r requirements.txt
 ```
 
-###### 6. Enter or validate values in the panrc.py file
+###### 6. Enter or validate values in the conf.py file
 ```
 $ vi conf.py --> **Or editor of choice**
 ```
@@ -57,9 +57,14 @@ $ python filetypecounts.py
 
 $ python appcounts.py
 
-$ python sigcounts.py
+$ python sigfiletypecounts.py
 ```
 
-###### 8. Output in the estackfiles ready for bulk loading
+###### 8. Output in the estackfiles folder ready for bulk loading
 
+Instructions for elasticsearch bulk load per output in the docs folder. Format:
+
+```
+$ curl -s -XPOST 'http://localhost:9200/_bulk' --data-binary @samplecounts.json -H "Content-Type: application/x-ndjson"
+```
 
