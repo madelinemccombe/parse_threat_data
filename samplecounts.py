@@ -7,7 +7,7 @@ import datetime
 import json
 from xlrd import open_workbook
 from conf import samples_output, samples_source, samples_sheetname, malware_source, malware_sheetname, sample_elkindex
-from lib.elk_index import elk_index
+from tagdata.elk_index import elk_index
 
 
 def dailycounts():

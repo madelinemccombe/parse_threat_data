@@ -8,8 +8,8 @@ import xlrd
 import json
 from xlrd import open_workbook
 from conf import sigfiletypes_output, sigfiletypes_sheetname, sigfiletypes_source, sigfiletype_elkindex
-from lib.elk_index import elk_index
-from lib.datatags import sigfiletypetags
+from tagdata.elk_index import elk_index
+from tagdata.datatags import sigfiletypetags
 
 
 def sigfiletypecounts():

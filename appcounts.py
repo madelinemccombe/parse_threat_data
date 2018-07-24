@@ -8,7 +8,7 @@ import xlrd
 import json
 from xlrd import open_workbook
 from conf import app_output, app_sheetname, app_source, app_elkindex
-from lib.elk_index import elk_index
+from tagdata.elk_index import elk_index
 
 
 def appcounts():
@@ -27,7 +27,7 @@ def appcounts():
     with open(app_output, 'w') as f:
         print('flush to rebuild the application count file')
 
-    with open('lib/apptags.json', 'r') as tagfile:
+    with open('tagdata/apptags.json', 'r') as tagfile:
         apptags = json.load(tagfile)
 
     for row in range(2, filesheet.nrows):
@@ -36,7 +36,7 @@ def appcounts():
         app_data_dict['application'] = filesheet.cell(row, 1).value
         app_data_dict['count'] = int(filesheet.cell(row,2).value)
 
-        # Add in application tags from lib/apptags.json
+        # Add in application tags from tagdata/apptags.json
         # tag with app_unknown if data app not in applipedia
         appname = app_data_dict['application']
 
