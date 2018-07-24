@@ -8,8 +8,8 @@ import xlrd
 import json
 from xlrd import open_workbook
 from conf import filetypes_output, filetypes_sheetname, filetypes_source, filetype_elkindex
-from lib.elk_index import elk_index
-from lib.datatags import filetypetags
+from tagdata.elk_index import elk_index
+from tagdata.datatags import filetypetags
 
 
 def filetypecounts():
