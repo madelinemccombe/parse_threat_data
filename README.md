@@ -22,7 +22,7 @@ Output json are designed to be bulk loaded into Elasticsearch
 ## INSTALLATION
 
 ###### 1. Clone repo
-git clone https://github.com/scotchoaf/safeNetwork_tools.git
+git clone https://github.com/scotchoaf/parse_threat_data.git
 
 ###### 2. Create python 3.6 virtualenv
 ```

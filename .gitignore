@@ -2,7 +2,7 @@
 __pycache__/
 .py[cod]
 $py.class
-lib/__pycache__
+lib/__pycache__g
 
 # C extensions
 *.so
