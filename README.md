@@ -1,70 +1,60 @@
-# Threat Data Parse Tools
+# Parse Threat Data Tools
 Parse threat data sheets into estack loadable output
 
 
-## Data loads
+### Data loads
 
 Data categories and indexes for daily counts include:
 
-* counts for all verdicts and malware
-* malware by filetype and upload source
-* malware by application
-* AV/Wildfire signatures
-* AV/Wildfire sigs and related filetypes
-* Top 20 Sig-Sample ratios
+    * daily sample counts by file type for all/malware verdicts, all/customer sources
+    * daily application counts across all sessions
+    * daily signature counts by file type
+
+Indexes are appended with the year-month created date-based groupings.
+
+### python metrics files
+
+    * metrics_apps: read and reformat daily appliation counts
+    * metrics_samples: read and combine the (4) input sample files then format out to json
+    * metrics_sigs: read and reformat daily sig counts
+    * name_mapping_apps: rename and reformat output apps csv file from kibana
+    * name_mapping_samples: rename and reformat output samples csv file from kibana
+    * name_mapping_sigs: rename and reformat output sigs csv file from kibana
+
+### conf.py file
+
+this file is used for basic config settings and file type data enhancements associated to
+the python files.
+
+#### filetype dicts
+
+In conf.py are two dicts: filetypetags and sigfiletypetags. These are used to map the
+raw filenames in the sample and sig data to both a `group` to simplify the output view names
+and `autofocus` to associate to Autofocus filetype names.
 
 
-## Loading into Elasticsearch
+### Loading into Elasticsearch
 
-Output json are designed to be bulk loaded into Elasticsearch
+Output json files are designed to be bulk loaded into Elasticsearch.
+The metrics files will print the curl command specific to the data run to copy-paste.
 
-
-## INSTALLATION
-
-###### 1. Clone repo
-git clone https://github.com/scotchoaf/parse_threat_data.git
-
-###### 2. Create python 3.6 virtualenv
-```
-$ python3.6 -m venv env
-```
-
-###### 3. Active virtualenv
-```
-$ source env/bin/activate
-```
-
-###### 4. Change into repo directory
-```
-$ cd parse_threat_data
-```
-
-###### 5. Download required libraries
-```
-$ pip install -r requirements.txt
-```
-
-###### 6. Enter or validate values in the conf.py file
-```
-$ vi conf.py --> **Or editor of choice**
-```
-
-###### 7. Run the python file specific to data to parse
-```
-$ python samplecounts.py
-
-$ python filetypecounts.py
-
-$ python appcounts.py
-
-$ python sigfiletypecounts.py
-```
-
-###### 8. Output in the estackfiles folder ready for bulk loading
-
-Instructions for elasticsearch bulk load per output in the docs folder. Format:
+Add new data to the index with dir/filename after `@`
 
 ```
-$ curl -s -XPOST 'http://localhost:9200/_bulk' --data-binary @samplecounts.json -H "Content-Type: application/x-ndjson"
+   curl -s -XPOST 'http://localhost:9200/_bulk' --data-binary @metrics_threat_output/metrics_threat_apps-2020-05-08T09-39-01Z.json -H "Content-Type: application/x-ndjson"
 ```
+
+> loading may require appending `-u username:password` if security features enabled
+
+> if adding new fields be sure to update the index pattern in Kibana
+
+
+Delete existing data in the index by index or using wildcards
+
+```
+   curl -XDELETE http://localhost:9200/metrics-threat-samples-2020-04
+```
+
+
+
 
