@@ -1,0 +1,2 @@
+# don't push data files
+*.json
