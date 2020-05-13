@@ -9,7 +9,7 @@ from xlrd import open_workbook
 import conf
 
 
-def metrics_samples():
+def metrics_apps():
     """
     application daily counters for malware verdict samples
 
@@ -22,8 +22,8 @@ def metrics_samples():
     filedate = datetime.now().strftime('%Y-%m-%dT%H-%M-%SZ')
 
     # create empty json output file
-    with open(f'{conf.output_dir}/{conf.output_filename}-{filedate}.json', 'w') as f:
-        print(f'writing to file: {conf.output_dir}/{conf.output_filename}-{filedate}.json')
+    with open(f'{conf.output_dir}/{conf.app_output_file}-{filedate}.json', 'w') as f:
+        print(f'writing to file: {conf.output_dir}/{conf.app_output_file}-{filedate}.json')
 
     # iterate across the worksheet rows and output json elk entries
     for row in range(2, input_sheet.nrows):
@@ -59,4 +59,4 @@ def metrics_samples():
 
 
 if __name__ == '__main__':
-    metrics_samples()
+    metrics_apps()

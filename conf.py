@@ -21,6 +21,11 @@ app_input_file = 'malwareapplication_202001.xlsx'
 app_input_worksheet = 'Day'
 app_output_file = 'metrics_threat_apps'
 
+# metrics_sigs.py input filename and worksheet name
+sig_input_file = 'Sig_per_day_per_file_jan2020_Apr2020.csv'
+sig_input_worksheet = 'Day'
+sig_output_file = 'metrics_threat_sigs'
+
 # file name mappings raw, filegroup, and Autofocus naming
 filetypetags = {
     "7z": ["7zip", "7zip Archive"],
@@ -68,7 +73,7 @@ filetypetags = {
     "zbundle": ["MacOSX", " Mac OS X app bundle in ZIP archive"]
 }
 
-sigfiletypetags = {
+sigfiletypes = {
     "7z": ["7zip", "7zip Archive"],
     "APK": ["Android", "Android APK"],
     "JAVA_CLASS": ["Java", "JAVA Class"],
@@ -98,10 +103,10 @@ sigfiletypetags = {
     "xls": ["Excel", "Microsoft Excel 97 - 2003 Document"],
     "xlsx": ["Excel", "Microsoft Excel Document"],
     "zbundle": ["MacOSX", " Mac OS X app bundle in ZIP archive"],
-    "OFFICE": ["Office", "Unknown"],
+    "OFFICE": ["MSFT Office", "Unknown"],
     "DNS": ["DNS", "Unknown"],
     "RAVEN": ["RAVEN", "Unknown"],
-    "OPENOFFICE": ["OPENOFFICE", "Unknown"],
+    "OPENOFFICE": ["MSFT Office", "Unknown"],
     "APP": ["APP", "Unknown"],
     "SWFZWS": ["SWFZWS", "Unknown"],
     "OLD_PDF": ["OLD_PDF", "Unknown"],

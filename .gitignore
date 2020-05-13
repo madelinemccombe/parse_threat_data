@@ -112,3 +112,5 @@ estackfiles/*.json
 
 # idea folder
 .idea/
+# Mac
+.DS_Store/

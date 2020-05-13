@@ -16,12 +16,12 @@ Full daily sample counts
 Delete existing data in the index
 
 ::
-   curl -XDELETE http://localhost:9200/metrics-threat-samples-2020-04
+   curl -XDELETE http://localhost:9200/metrics-threat-signatures-2020-01
 
 Add new data to the index
 
 ::
-   curl -s -XPOST 'http://localhost:9200/_bulk' --data-binary @metrics_threat_output/metrics_threat_apps-2020-05-08T09-39-01Z.json -H "Content-Type: application/x-ndjson"
+   curl -s -XPOST 'http://localhost:9200/_bulk' --data-binary @metrics_threat_output/metrics_threat_sigs-2020-05-13T10-57-06Z.json -H "Content-Type: application/x-ndjson"
 
 
 
