@@ -3,15 +3,16 @@
 Parse data files with json output for estack bulk load
 """
 
-from datetime import datetime, timedelta
-import sys
 import json
+import sys
+from datetime import datetime, timedelta
+
 from xlrd import open_workbook
+
 import conf
 
 
 def metrics_samples():
-
     """
     filetype daily counters for malware verdict samples
 
@@ -22,7 +23,7 @@ def metrics_samples():
 
     # grab all input data and write into a master dict
     raw_data = {}
-    
+
     for datatype in conf.input_file_data:
         input_file = open_workbook(f'{conf.input_dir}/{conf.input_file_data[datatype][0]}')
         input_sheet = input_file.sheet_by_name(conf.input_file_data[datatype][1])
@@ -91,29 +92,35 @@ def metrics_samples():
                 stats_dict['metrics.threat.samples.verdict.all.all'] = raw_data['verdict_all_all'][raw_date][filetype]
             else:
                 stats_dict['metrics.threat.samples.verdict.all.all'] = 0
-                
+
             # get counts for all verdicts and customer source
             if filetype in raw_data['verdict_all_NO245'][raw_date]:
-                stats_dict['metrics.threat.samples.verdict.all.customer'] = raw_data['verdict_all_NO245'][raw_date][filetype]
+                stats_dict['metrics.threat.samples.verdict.all.customer'] = raw_data['verdict_all_NO245'][raw_date][
+                    filetype]
             else:
                 stats_dict['metrics.threat.samples.verdict.all.customer'] = 0
 
             # get counts for all verdicts and all sources
             if filetype in raw_data['verdict_mal_all'][raw_date]:
-                stats_dict['metrics.threat.samples.verdict.malware.all'] = raw_data['verdict_mal_all'][raw_date][filetype]
+                stats_dict['metrics.threat.samples.verdict.malware.all'] = raw_data['verdict_mal_all'][raw_date][
+                    filetype]
             else:
                 stats_dict['metrics.threat.samples.verdict.malware.all'] = 0
 
             # get counts for all verdicts and customer source
             if filetype in raw_data['verdict_mal_NO245'][raw_date]:
-                stats_dict['metrics.threat.samples.verdict.malware.customer'] = raw_data['verdict_mal_NO245'][raw_date][filetype]
+                stats_dict['metrics.threat.samples.verdict.malware.customer'] = raw_data['verdict_mal_NO245'][raw_date][
+                    filetype]
             else:
                 stats_dict['metrics.threat.samples.verdict.malware.customer'] = 0
 
             # calculate toxicity ratio comparing malware vs all verdicts - customer source
-            if filetype in raw_data['verdict_all_NO245'][raw_date] and filetype in raw_data['verdict_mal_NO245'][raw_date]:
-                stats_dict['metrics.threat.samples.toxicity.customer'] = raw_data['verdict_mal_NO245'][raw_date][filetype] / \
-                                                                         raw_data['verdict_all_NO245'][raw_date][filetype]
+            if filetype in raw_data['verdict_all_NO245'][raw_date] and filetype in raw_data['verdict_mal_NO245'][
+                raw_date]:
+                stats_dict['metrics.threat.samples.toxicity.customer'] = raw_data['verdict_mal_NO245'][raw_date][
+                                                                             filetype] / \
+                                                                         raw_data['verdict_all_NO245'][raw_date][
+                                                                             filetype]
 
             # calculate toxicity ratio comparing malware vs all verdicts - all sources
             if filetype in raw_data['verdict_all_all'][raw_date] and filetype in raw_data['verdict_mal_all'][raw_date]:
@@ -151,6 +158,7 @@ def metrics_samples():
 
     print(
         f'curl -s -XPOST \'http://{conf.elastic_url_port}/_bulk\' --data-binary @{conf.output_dir}/{conf.output_filename}-{filedate}.json -H \"Content-Type: application/x-ndjson\" \n')
+
 
 if __name__ == '__main__':
     metrics_samples()

@@ -30,23 +30,24 @@ def metrics_apps():
         row_date = input_sheet.cell(row, 0).value
         date_datetime = datetime.strptime(row_date, '%Y-%m-%d')
 
-        stats_dict = {}
-        stats_dict['date'] = date_datetime.strftime('%Y-%m-%dT00:00:00Z')
-        stats_dict['metrics.threat.application.name'] = input_sheet.cell(row, 1).value
-        stats_dict['metrics.threat.application.count'] = int(input_sheet.cell(row, 2).value)
+        if input_sheet.cell(row, 2).value:
+            stats_dict = {}
+            stats_dict['date'] = date_datetime.strftime('%Y-%m-%dT00:00:00Z')
+            stats_dict['metrics.threat.application.name'] = input_sheet.cell(row, 1).value
+            stats_dict['metrics.threat.application.count'] = int(input_sheet.cell(row, 2).value)
 
-        # create elk index by month and year
-        index_tag_full = {}
-        index_tag_inner = {}
-        elk_index_name = f"metrics-threat-apps-{date_datetime.year}-{date_datetime.strftime('%m')}"
-        index_tag_inner['_index'] = f'{elk_index_name}'
-        index_tag_inner['_type'] = f'{elk_index_name}'
-        index_tag_full['index'] = index_tag_inner
+            # create elk index by month and year
+            index_tag_full = {}
+            index_tag_inner = {}
+            elk_index_name = f"metrics-threat-apps-{date_datetime.year}-{date_datetime.strftime('%m')}"
+            index_tag_inner['_index'] = f'{elk_index_name}'
+            index_tag_inner['_type'] = f'{elk_index_name}'
+            index_tag_full['index'] = index_tag_inner
 
-        # write elk formated json file
-        with open(f'{conf.output_dir}/{conf.app_output_file}-{filedate}.json', 'a') as file:
-            file.write(json.dumps(index_tag_full, indent=None, sort_keys=False) + "\n")
-            file.write(json.dumps(stats_dict, indent=None, sort_keys=False) + "\n")
+            # write elk formated json file
+            with open(f'{conf.output_dir}/{conf.app_output_file}-{filedate}.json', 'a') as file:
+                file.write(json.dumps(index_tag_full, indent=None, sort_keys=False) + "\n")
+                file.write(json.dumps(stats_dict, indent=None, sort_keys=False) + "\n")
 
 
     # print out the elasticSearch bulk load curl commands

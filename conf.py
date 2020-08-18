@@ -5,24 +5,24 @@ output_dir = 'metrics_threat_output'
 output_filename = 'metrics_threat_samples'
 
 # start and stop dates
-start_date = '2020-01-01'
-stop_date = '2020-04-30'
+start_date = '2020-05-01'
+stop_date = '2020-07-31'
 
 # metrics_samples.py input filename and worksheet name
 input_file_data = {
-    'verdict_all_all': ['filetypecountall_202001.xlsx', 'Day'],
-    'verdict_all_NO245': ['samplefiletypecountNO245_202001.xlsx', 'Day'],
-    'verdict_mal_all': ['malwarefiletypeall_202001.xlsx', 'Day'],
-    'verdict_mal_NO245': ['malwarefiletypeNO245_202001.xlsx', 'Day'],
+    'verdict_all_all': ['filetypecountall_202005.xlsx', 'Day'],
+    'verdict_all_NO245': ['samplefiletypecountNO245_202005.xlsx', 'Day'],
+    'verdict_mal_all': ['malwarefiletypeall_202005.xlsx', 'Day'],
+    'verdict_mal_NO245': ['malwarefiletypeNO245_202005.xlsx', 'Day'],
 }
 
 # metrics_apps.py input filename and worksheet name
-app_input_file = 'malwareapplication_202001.xlsx'
+app_input_file = 'malwareapplication_202005.xlsx'
 app_input_worksheet = 'Day'
 app_output_file = 'metrics_threat_apps'
 
 # metrics_sigs.py input filename and worksheet name
-sig_input_file = 'Sig_per_day_per_file_jan2020_Apr2020.csv'
+sig_input_file = 'Sig_per_day_per_file_202008.csv'
 sig_input_worksheet = 'Day'
 sig_output_file = 'metrics_threat_sigs'
 
@@ -70,6 +70,7 @@ filetypetags = {
     "vbs": ["VBScript", "VBScript"],
     "xls": ["Excel", "Microsoft Excel 97 - 2003 Document"],
     "xlsx": ["Excel", "Microsoft Excel Document"],
+    "zip": ["Zip", "zip Archive"],
     "zbundle": ["MacOSX", " Mac OS X app bundle in ZIP archive"]
 }
 
