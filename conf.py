@@ -1,30 +1,34 @@
 # common config info
-elastic_url_port = 'localhost:9200'
+elastic_url_port = '10.48.58.252:9200'
 input_dir = "inputfiles"
 output_dir = 'metrics_threat_output'
-output_filename = 'metrics_threat_samples'
+output_filename = 'threat_samples'
 
 # start and stop dates
-start_date = '2020-05-01'
-stop_date = '2020-07-31'
+# update
+start_date = '2019-08-01'
+stop_date = '2019-10-31'
 
 # metrics_samples.py input filename and worksheet name
+# update
 input_file_data = {
-    'verdict_all_all': ['filetypecountall_202005.xlsx', 'Day'],
-    'verdict_all_NO245': ['samplefiletypecountNO245_202005.xlsx', 'Day'],
-    'verdict_mal_all': ['malwarefiletypeall_202005.xlsx', 'Day'],
-    'verdict_mal_NO245': ['malwarefiletypeNO245_202005.xlsx', 'Day'],
+    'verdict_all_all': ['filetypecountall_201908.xlsx', 'Day'],
+    'verdict_all_NO245': ['samplefiletypecountNO245_201908.xlsx', 'Day'],
+    'verdict_mal_all': ['malwarefiletypeall_201908.xlsx', 'Day'],
+    'verdict_mal_NO245': ['malwarefiletypeNO245_201908.xlsx', 'Day'],
 }
 
 # metrics_apps.py input filename and worksheet name
-app_input_file = 'malwareapplication_202005.xlsx'
+# update
+app_input_file = 'malwareapplication_201908.xlsx'
 app_input_worksheet = 'Day'
-app_output_file = 'metrics_threat_apps'
+app_output_file = 'threat_apps'
 
 # metrics_sigs.py input filename and worksheet name
-sig_input_file = 'Sig_per_day_per_file_202008.csv'
+# update
+sig_input_file = 'Sig_per_day_per_file.csv'
 sig_input_worksheet = 'Day'
-sig_output_file = 'metrics_threat_sigs'
+sig_output_file = 'threat_sigs'
 
 # file name mappings raw, filegroup, and Autofocus naming
 filetypetags = {
@@ -47,6 +51,8 @@ filetypetags = {
     "exe64": ["PE", "PE64"],
     "fat": ["MacOSX", "Apple's Universal binary file"],
     "hta": ["HTML", "HTML Application"],
+    "iqy": ["Excel Query", "Microsoft Web Query File"],
+    "iso": ["ISO", "ISO"],
     "jar": ["Java", "JAVA JAR"],
     "java": ["Java", "JAVA Class"],
     "java_class": ["Java", "JAVA Class"],
@@ -54,17 +60,21 @@ filetypetags = {
     "lnk": ["Link", "Link"],
     "macho": ["MacOSX", "Mach-O"],
     "macro": ["Macro", " Macro"],
+    "msi": ["Windows", "Windows Installer Package"],
     "NULL": ["Other", "Other"],
     "perl": ["Script", "Perl Script"],
     "pdf": ["PDF", "PDF"],
+    "pdns": ["DNS", "Other"],
     "pkg": ["MacOSX", "Mac OS X app installer"],
     "ppt": ["Powerpoint", "Microsoft PowerPoint 97 - 2003 Document"],
     "pptx": ["Powerpoint", "Microsoft PowerPoint Document"],
     "ps1": ["PowerShell", "PowerShell"],
+    "python": ["Python", "Python Script"],
     "rar": ["RAR Archive", "RAR Archive"],
     "rtf": ["RTF", "RTF"],
     "seven_zip": ["7zip", "7zip Archive"],
     "shell": ["Shell Script", "Shell Script"],
+    "slk": ["Symbolic Link", "Microsoft Symbolic Link file"],
     "swf": ["Flash", "Adobe Flash File"],
     "unknown": ["Other", "Other"],
     "vbs": ["VBScript", "VBScript"],
@@ -98,7 +108,9 @@ sigfiletypes = {
     "ppt": ["Powerpoint", "Microsoft PowerPoint 97 - 2003 Document"],
     "pptx": ["Powerpoint", "Microsoft PowerPoint Document"],
     "RAR": ["RAR Archive", "RAR Archive"],
+    "RAR5": ["RAR Archive", "RAR Archive"],
     "rtf": ["RTF", "RTF"],
+    "RTDNS": ["RTDNS", "RTDNS"],
     "seven_zip": ["7zip", "7zip Archive"],
     "FLASH": ["Flash", "Adobe Flash File"],
     "xls": ["Excel", "Microsoft Excel 97 - 2003 Document"],

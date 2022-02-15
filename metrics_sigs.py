@@ -72,9 +72,9 @@ def metrics_sigs():
             # create elk index by month and year
             index_tag_full = {}
             index_tag_inner = {}
-            elk_index_name = f"metrics-threat-signatures-{date_datetime.year}-{date_datetime.strftime('%m')}"
+            elk_index_name = f"threat-signatures-{date_datetime.year}-{date_datetime.strftime('%m')}"
             index_tag_inner['_index'] = f'{elk_index_name}'
-            index_tag_inner['_type'] = f'{elk_index_name}'
+            index_tag_inner['_type'] = '_doc'
             index_tag_full['index'] = index_tag_inner
 
             # write elk formated json file

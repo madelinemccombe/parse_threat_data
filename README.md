@@ -55,6 +55,32 @@ Delete existing data in the index by index or using wildcards
    curl -XDELETE http://localhost:9200/metrics-threat-samples-2020-04
 ```
 
+## Imported to ELK incorrectly?
+
+- Delete a range of dates:
+```
+POST <index>/_delete_by_query
+{
+  "query": {
+    "range" : {
+        "date" : {
+           "gte" : "YYYY-MM-DD",
+           "lte" : "YYYY-MM-DD"
+        }
+    }
+  }
+}
+```
+- Delete a single date:
+```
+POST <index>/_delete_by_query
+{
+  "query": {
+      "term" : {"date" : "YYYY-MM-DD>T00:00:00.000"}
+  }
+}
+```
+
 
 
 
